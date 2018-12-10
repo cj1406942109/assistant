@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="37px" viewBox="0 0 38 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>任务</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="作文精批" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="底部icon" transform="translate(-206.000000, -667.000000)">
+            <g id="任务" transform="translate(204.000000, 664.000000)">
+                <rect id="Rectangle-11" stroke="#515151" stroke-width="2.178" x="4.05838776" y="7.25566667" width="34.077102" height="30.7811837" rx="8.712"></rect>
+                <rect id="Rectangle-12" stroke="#515151" stroke-width="2.178" fill="#FFFFFF" x="13.9461429" y="5.05838776" width="15.4002313" height="5.51247619" rx="2.178"></rect>
+                <path d="M28.2941956,17.5121519 L19.3320891,26.2520385 C19.041981,26.5351217 18.5734566,26.5351217 18.287756,26.2520385 L14.989395,23.0356197 C14.502962,22.5610215 13.7084007,22.5610215 13.2219677,23.0356197 C12.7355346,23.5100002 12.7355346,24.2848744 13.2219677,24.759255 L17.1094152,28.5503277 C17.5779397,29.0072979 18.1940287,29.2380952 18.8142462,29.2380952 C19.4346869,29.2380952 20.0462011,29.0072979 20.5193562,28.5503277 L30.0705494,19.2357872 C30.5569824,18.761189 30.5569824,17.9865325 30.0705494,17.5121519 C29.5751899,17.0333643 28.7806286,17.0333643 28.2941956,17.5121519 Z" id="Fill-4" fill="#515151"></path>
+            </g>
+        </g>
+    </g>
+</svg>

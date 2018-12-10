@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="38px" viewBox="0 0 37 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>任务hover状态</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="作文精批" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="底部icon" transform="translate(-207.000000, -406.000000)">
+            <g id="任务hover状态" transform="translate(204.000000, 404.000000)">
+                <rect id="Rectangle-11" stroke="#515151" stroke-width="3.3" fill="#FFDA44" x="5.2452381" y="7.60238095" width="32.5095238" height="30.2714286" rx="9.199872"></rect>
+                <path d="M19.8647623,30.5714286 C19.4897154,30.5714286 19.1161161,30.4254573 18.8299883,30.1348965 L12.9757467,24.1664498 C12.4049098,23.5839759 12.4049098,22.6385583 12.9757467,22.0560844 C13.5479445,21.4734928 14.4744868,21.4734928 15.0452079,22.0560844 L19.8647623,26.9693336 L29.0738687,17.5808371 C29.6445898,16.9968638 30.5711321,16.9968638 31.1433009,17.5808371 C31.7141378,18.1634581 31.7141378,19.1072293 31.1433009,19.6897326 L20.8995363,30.1348965 C20.6133795,30.4254573 20.2383326,30.5714286 19.8647623,30.5714286 Z" id="Path" fill="#515151"></path>
+                <rect id="Rectangle-12" stroke="#515151" stroke-width="3.3" fill="#FFFFFF" x="14.197619" y="4.2452381" width="14.6047619" height="6.77142857" rx="2.299968"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

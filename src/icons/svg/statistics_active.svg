@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>学情</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="作文精批" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="底部icon" transform="translate(-55.000000, -147.000000)">
+            <g id="学情" transform="translate(53.000000, 145.000000)">
+                <g id="Group-5-Copy-2">
+                    <rect id="Rectangle-21-Copy" stroke="#515151" stroke-width="3" fill="#FFFFFF" transform="translate(21.000000, 18.500000) rotate(-20.000000) translate(-21.000000, -18.500000) " x="5.5" y="7.5" width="31" height="22" rx="5"></rect>
+                    <rect id="Rectangle-21" stroke="#515151" stroke-width="3" fill="#FFDA44" x="7.5" y="17.5" width="33" height="23" rx="4"></rect>
+                    <rect id="Rectangle-8" fill="#515151" x="14" y="25" width="3" height="10" rx="1"></rect>
+                    <rect id="Rectangle-8" fill="#515151" x="20" y="27" width="3" height="8" rx="1"></rect>
+                    <rect id="Rectangle-8-Copy" fill="#515151" x="26" y="23" width="3" height="12" rx="1"></rect>
+                    <rect id="Rectangle-8-Copy-2" fill="#515151" x="32" y="31" width="3" height="4" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

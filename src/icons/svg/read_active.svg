@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="40px" viewBox="0 0 35 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>阅读</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="作文精批" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="底部icon" transform="translate(-358.000000, -665.000000)">
+            <g id="阅读" transform="translate(353.000000, 663.000000)">
+                <g id="错题本2-copy-2">
+                    <g id="Group-17" transform="translate(0.889535, 0.000000)" fill="#FFFFFF" stroke="#515151" stroke-width="3">
+                        <path d="M15.2409302,4 L33.1546386,4 C35.0985594,4 36.6744186,5.57585918 36.6744186,7.51978 L36.6744186,30.432601 C36.6744186,32.3765218 35.0985594,33.952381 33.1546386,33.952381 L15.2409302,33.952381 C13.2968879,33.952381 11.7209302,32.3764233 11.7209302,30.432381 L11.7209302,7.52 C11.7209302,5.57595768 13.2968879,4 15.2409302,4 Z" id="Rectangle-Copy-15"></path>
+                    </g>
+                    <g id="Group-17-Copy-2" transform="translate(7.116279, 9.625000)" fill="#FFDA44" stroke="#515151" stroke-width="3">
+                        <path d="M3.52,-3.37507799e-13 L21.4337084,-3.37951889e-13 C23.3776292,-3.38308981e-13 24.9534884,1.57585918 24.9534884,3.51978 L24.9534884,26.432601 C24.9534884,28.3765218 23.3776292,29.952381 21.4337084,29.952381 L3.52,29.952381 C1.57595768,29.952381 -3.26559397e-12,28.3764233 -3.26583205e-12,26.432381 L-3.26583205e-12,3.52 C-3.26607013e-12,1.57595768 1.57595768,-3.37594774e-13 3.52,-3.37951889e-13 Z" id="Rectangle-Copy-15"></path>
+                    </g>
+                    <rect id="Rectangle-3" fill="#555451" x="13.6744186" y="18" width="12.6976744" height="3" rx="1.5"></rect>
+                    <rect id="Rectangle-6" stroke="#555451" fill="#555451" x="14.1744186" y="25.5" width="6.81395349" height="2" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
