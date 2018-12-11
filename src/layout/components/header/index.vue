@@ -1,15 +1,6 @@
 <template>
   <el-row>
-    <el-col class="hidden-xs-only">
-      <div class="pc-header">
-        <h3 class="nav-brand">外研 AI 智能学习平台</h3>
-        <el-menu default-active="write" active-text-color="#5093F0" mode="horizontal">
-          <el-menu-item :index="item.id" v-for="item in tabListP" :key="item.id" @click="tabChangeHandler(item)">{{item.label}}</el-menu-item>
-        </el-menu>
-        <span class="user-test"><svg-icon icon-class="user"></svg-icon>合心测试</span>
-      </div>
-    </el-col>
-    <el-col class="hidden-sm-and-up">
+    <el-col class="app-header-wrapper">
       <!-- <mt-header fixed :title="$route.meta.title"></mt-header> -->
       <mt-header fixed :title="$route.meta.title">
         <router-link to="/home" slot="left">
@@ -65,50 +56,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .hidden-xs-only {
-    border-bottom: 1px solid #eee;
-    .pc-header {
-      display: flex;
-      padding: 0 20px;
-      justify-content: space-between;
-      .nav-brand {
-        height: 60px;
-        line-height: 60px;
-        margin: 0;
-        color: #5093F0;
-      }
-      .el-menu {
-        border-bottom: none;
-        .el-menu-item {
-          color: #666;
-          &:hover {
-            color: #333;
-          }
-          &.isactive {
-            color: #5093F0;
-          }
-        }
-      }
-      .user-test {
-        color: #666;
-        font-size: 14px;
-        line-height: 60px;
-        cursor: pointer;
-        &:hover {
-          color: #333;
-        }
-        .svg-icon {
-          color: #D8E0EB;
-          vertical-align: -0.2em;
-          margin-right: 5px;
-        }
-      }
-    }
-  }
-  .hidden-sm-and-up {
+  .app-header-wrapper {
     .mint-header.is-fixed {
       height: 50px;
       background-color: #fff;
+      border-bottom: 1px solid #eee;
       font-size: 14px;
       color: #333;
       .svg-icon {

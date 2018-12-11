@@ -1,33 +1,6 @@
 <template>
   <div>
-    <el-row class="hidden-xs-only pc-main">
-      <el-col class="pc-content-wrapper">
-        <s-breadcrumb route-name="write" title="作文写作"></s-breadcrumb>
-        <el-form ref="form" :model="form" label-position="right" label-width="75px">
-          <el-form-item v-loading="loading" label="标题：">
-            <el-input clearable v-model="form.name" placeholder="请输入标题"></el-input>
-          </el-form-item>
-          <div class="word-count">{{wordCount}} 字</div>
-          <el-form-item v-loading="loading" label="内容：">
-            <el-input clearable type="textarea" rows="25" v-model="form.answer" placeholder="开始写作文"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <div class="prompt-info"><svg-icon icon-class="star"></svg-icon>为保证批改的准确性，请您输入与文章相符合的内容</div>
-          </el-form-item>
-        </el-form>
-        <div class="submit-wrapper">
-          <el-button type="default" :loading="btnLoading" @click="save">先保存</el-button>
-          <el-button type="primary"
-          v-loading.fullscreen.lock="submitLoading"
-          element-loading-text="作文精批中..."
-          element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-custom-class="my-loading-color"
-          @click="submit">现在提交</el-button>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row class="hidden-sm-and-up mobile-main">
+    <el-row class="mobile-main">
       <el-col class="mobile-content-wrapper">
         <el-form ref="form" :model="form">
           <el-form-item v-loading="loading">
@@ -69,14 +42,7 @@ export default {
       moment,
       loading: true,
       btnLoading: false,
-      submitLoading: false,
-      screenWidth: document.body.clientWidth
-    }
-  },
-  mounted () {
-    const vm = this
-    window.onresize = function () {
-      vm.screenWidth = document.body.clientWidth
+      submitLoading: false
     }
   },
   created () {
@@ -88,33 +54,16 @@ export default {
     if (localEssay) {
       // 存储的作文有uid且与当前uid相同，或者存储的作文没有uid，也没有当前uid
       if (currentUid === localEssay.uid || (!currentUid && !localEssay.uid && !(!localEssay.name && !localEssay.answer))) {
-        if (this.isPc) {
-          this.$confirm('检测到有未提交的作文，是否恢复之前的写作进度？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
+        this.$messagebox.confirm('检测到有未提交的作文，是否恢复之前的写作进度？').then(action => {
+          this.loading = false
+          this.form = localEssay
+        }).catch(() => {
+          if (currentUid) {
+            this.getArticle()
+          } else {
             this.loading = false
-            this.form = localEssay
-          }).catch(() => {
-            if (currentUid) {
-              this.getArticle()
-            } else {
-              this.loading = false
-            }
-          })
-        } else {
-          this.$messagebox.confirm('检测到有未提交的作文，是否恢复之前的写作进度？').then(action => {
-            this.loading = false
-            this.form = localEssay
-          }).catch(() => {
-            if (currentUid) {
-              this.getArticle()
-            } else {
-              this.loading = false
-            }
-          })
-        }
+          }
+        })
       } else {
         if (currentUid) {
           this.getArticle()
@@ -146,9 +95,6 @@ export default {
         return 1
       }
       return 0
-    },
-    isPc () {
-      return this.screenWidth >= 768
     }
   },
   watch: {
@@ -175,16 +121,9 @@ export default {
         if (data) {
           this.form = JSON.parse(JSON.stringify(data))
         } else {
-          if (this.isPc) {
-            this.$message({
-              message: '获取作文信息失败',
-              type: 'error'
-            })
-          } else {
-            this.toast({
-              message: '获取作文信息失败'
-            })
-          }
+          this.toast({
+            message: '获取作文信息失败'
+          })
         }
       })
     },
@@ -195,27 +134,13 @@ export default {
         if (data) {
           localStorage.removeItem('essay')
           this.form = JSON.parse(JSON.stringify(data))
-          if (this.isPc) {
-            this.$message({
-              message: '保存成功',
-              type: 'success'
-            })
-          } else {
-            this.$toast({
-              message: '保存成功'
-            })
-          }
+          this.$toast({
+            message: '保存成功'
+          })
         } else {
-          if (this.isPc) {
-            this.$message({
-              message: '保存失败',
-              type: 'error'
-            })
-          } else {
-            this.$toast({
-              message: '保存失败'
-            })
-          }
+          this.$toast({
+            message: '保存失败'
+          })
         }
       })
     },
@@ -226,27 +151,13 @@ export default {
         if (data) {
           localStorage.removeItem('essay')
           this.$router.push({ name: 'write-result', params: { id: data.batch_uid } })
-          if (this.isPc) {
-            this.$message({
-              message: '提交成功',
-              type: 'success'
-            })
-          } else {
-            this.$toast({
-              message: '提交成功'
-            })
-          }
+          this.$toast({
+            message: '提交成功'
+          })
         } else {
-          if (this.isPc) {
-            this.$message({
-              message: '提交失败',
-              type: 'error'
-            })
-          } else {
-            this.$toast({
-              message: '提交失败'
-            })
-          }
+          this.$toast({
+            message: '提交失败'
+          })
         }
       })
     }
@@ -255,38 +166,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .pc-content-wrapper {
-    padding: 0 20px;
-    .word-count {
-      padding-right: 10px;
-      margin-bottom: 5px;
-      text-align: right;
-    }
-    .prompt-info {
-      margin-top: -22px;
-      padding-left: 20px;
-      height: 40px;
-      line-height: 40px;
-      background-color: #F8F8F8;
-      text-align: left;
-      font-size: 16px;
-      border: 1px solid #dcdfe6;
-      border-top: none;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      color: #999;
-      .svg-icon {
-        font-size: 10px;
-        margin-right: 5px;
-      }
-    }
-    .submit-wrapper {
-      text-align: right;
-      button {
-        width: 150px;
-      }
-    }
-  }
   .mobile-content-wrapper {
     .mobile-full-screen-mask {
       top: 0;

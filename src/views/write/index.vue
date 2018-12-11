@@ -1,37 +1,6 @@
 <template>
   <div v-loading="listLoading">
-    <el-row class="hidden-xs-only pc-main">
-      <el-col class="pc-content-wrapper">
-        <div v-if="essayListAll.length === 0" class="no-essay">
-          <img src="./images/no-essay-pc.jpg" alt="没有开始写作">
-          <p>你还没有开始写作</p>
-          <el-button type="primary" @click="goEdit()">开始第 1 次写作</el-button>
-        </div>
-        <div v-else class="essay-all">
-          <div class="statistics">
-            <div>
-              <s-big-num :number="essayTotal" unit="篇">写作篇数</s-big-num>
-              <s-big-num :number="wordsTotal" unit="词">总词数</s-big-num>
-              <s-big-num :number="essayPerfect" unit="篇">完美篇章</s-big-num>
-            </div>
-            <el-button type="primary" @click="goEdit()">开始第 {{this.essayListAll.length + 1}} 次写作</el-button>
-          </div>
-          <div class="essay-list">
-            <h3>作文列表</h3>
-            <s-list-pc :date="item.time_create" v-for="item in essayList" :key="item.id">
-              <template slot="title">
-                {{item.name}}
-                <s-tag v-if="item.advice_count === 0">完美</s-tag>
-                <s-tag v-if="item.advice_count > 0" tagColor="#FF6E36" tagBg="#fff">{{item.advice_count}} 处可优化</s-tag>
-              </template>
-              <template slot="button"><el-button :plain="item.status === 2" type="primary" @click="goEdit(item)">{{item.status | formatStatusPc}}</el-button></template>
-            </s-list-pc>
-            <el-button class="load-more" @click="loadMore" v-show="showLoadMore">查看更多</el-button>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row class="hidden-sm-and-up mobile-main">
+    <el-row class="mobile-main">
       <el-col class="mobile-content-wrapper">
         <div v-if="essayListAll.length === 0" class="no-essay">
           <div class="help"><a href="#"><svg-icon icon-class="help"></svg-icon>学习如何使用？</a></div>
@@ -48,7 +17,7 @@
               <span v-if="item.advice_count > 0">（{{item.advice_count}} 处可优化）</span>
             </template>
             <span slot="content">{{item.name}}</span>
-            <mt-button slot="button" size="small" type="primary" @click="goEdit(item)">{{item.status | formatStatusPc}}</mt-button>
+            <mt-button slot="button" size="small" type="primary" @click="goEdit(item)">{{item.status | formatStatus}}</mt-button>
           </s-list>
           <mt-button type="primary" size="large" @click="loadMore" v-show="showLoadMore">查看更多作文</mt-button>
         </div>
@@ -59,7 +28,6 @@
 
 <script>
 import SList from '@/components/s-list'
-import SListPc from '@/components/s-list-pc'
 import STag from '@/components/s-tag'
 import SBigNum from '@/components/s-big-num'
 
@@ -83,18 +51,16 @@ export default {
     }
   },
   filters: {
-    formatStatusPc (val) {
+    formatStatus (val) {
       if (val === 0) {
         return '继续写作'
-      } else if (val === 1) {
-        return '去看看'
-      } else if (val === 2) {
-        return '去看看'
+      } else {
+        return '查看'
       }
     }
   },
   components: {
-    SList, SListPc, STag, SBigNum
+    SList, STag, SBigNum
   },
   methods: {
     getArticleList () {
@@ -154,55 +120,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .pc-content-wrapper {
-    padding: 20px;
-    .no-essay {
-      margin-top: 100px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      img {
-        width: 180px;
-      }
-      p {
-        margin: 30px 0;
-        color: #999;
-        font-size: 14px;
-      }
-    }
-    .essay-all {
-      button {
-        width: 150px;
-      }
-      .statistics {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        padding: 0 30px;
-        div {
-          width: calc(100% - 60px);
-          max-width: 650px;
-          padding: 0 40px 0 20px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-      }
-      .essay-list {
-        h3 {
-          margin-top: 30px;
-          padding-left: 10px;
-          text-align: left;
-          color: #000;
-          font-weight: normal;
-        }
-        .load-more {
-          margin-top: 20px;
-        }
-      }
-    }
-  }
   .mobile-content-wrapper {
     color: #666;
     .no-essay {
@@ -218,6 +135,9 @@ export default {
         text-align: right;
         padding-right: 20px;
         font-size: 14px;
+        a {
+          color: #409EFF;
+        }
         .svg-icon {
           vertical-align: -0.2em;
           margin-right: 5px;
