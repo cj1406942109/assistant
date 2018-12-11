@@ -11,11 +11,6 @@ const router = new Router({
   routes: [
     { path: '', redirect: '/write' },
     {
-      path: '/home',
-      meta: { title: '作文精批样例示范' },
-      component: () => import('@/views/home')
-    },
-    {
       path: '',
       name: 'Dashboard',
       component: Layout,

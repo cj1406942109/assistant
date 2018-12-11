@@ -11,15 +11,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 
-// import MintUI entirely
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
-
 // global css
 import '@/styles/index.scss'
 
 Vue.use(ElementUI)
-Vue.use(MintUI)
 
 Vue.config.productionTip = false
 

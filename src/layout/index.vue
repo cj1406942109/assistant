@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <app-header :tabListP="tabListP" :tabListM="tabListM"/>
+      <app-header :tabListP="tabListP"/>
     </el-header>
     <el-main>
       <transition name="fade" mode="out-in">
@@ -18,14 +18,6 @@ export default {
   data () {
     return {
       title: '',
-      // 移动端端tab
-      tabListM: [
-        { id: 'analysis', label: '学情', icon: 'statistics', href: 'http://student.pigai.hexinedu.com/#/report' },
-        { id: 'task', label: '任务', icon: 'task', href: 'http://student.pigai.hexinedu.com/#/tasks' },
-        { id: 'read', label: '阅读', icon: 'read', href: 'http://student.pigai.hexinedu.com/#/books' },
-        { id: 'write', label: '写作', icon: 'write_active' },
-        { id: 'me', label: '我的', icon: 'me', href: 'http://student.pigai.hexinedu.com/#/my' }
-      ],
       // PC端tab
       tabListP: [
         { id: 'dashboard', label: '首页', icon: 'home', href: 'http://study.ai.fltrp.com/#/home' },

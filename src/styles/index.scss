@@ -1,7 +1,6 @@
 html {
   body {
     margin: 0;
-    -webkit-tap-highlight-color: transparent;
     .my-loading-color {
       .el-loading-spinner {
         .el-icon-loading, .el-loading-text {
@@ -9,18 +8,9 @@ html {
         }
       }
     }
-    .mint-header-title {
-      font-size: 16px;
-    }
     .el-header, .el-footer {
       padding: 0;
       height: auto!important;
-      .mint-header {
-        a {
-          text-decoration: none;
-          color: #333;
-        }
-      }
     }
     .el-main {
       padding: 0;
@@ -35,21 +25,6 @@ html {
       }
       .pc-main {
         padding: 20px;
-      }
-      .mobile-main {
-        min-height: calc(100vh - 106px);
-        margin-top: 50px;
-        margin-bottom: 56px;
-        background-color: #F5F5F5;
-        padding: 20px 10px;
-      }
-      @media screen and (min-width: 1200px){
-        .pc-main {
-          margin: 0 auto;
-          max-width: 1160px;
-        }
-      }
-      .pc-main {
         .el-tabs__header {
           display: none;
         }
@@ -58,32 +33,13 @@ html {
           border-bottom-right-radius: 0;
         }
       }
-      .mobile-main {
-        .el-input__inner, .el-textarea__inner {
-          border: 1px solid #eee;
-        }
-        textarea {
-          height: calc(100vh - 290px)!important;
+      @media screen and (min-width: 1200px){
+        .pc-main {
+          margin: 0 auto;
+          max-width: 1160px;
         }
       }
     }
-    .el-popover.essay-error-popper {
-      background-color: rgba(0,0,0,0.8);
-      color: #fff;
-      .el-popover__title {
-        color: #FF6E36;
-      }
-      .el-popover__title::before {
-        content: '\02022';
-        color: #FF6E36;
-        margin-right: 10px;
-      }
-      .popper__arrow::after {
-        border-top-color: rgba(0,0,0,0.8);
-        border-bottom-color: rgba(0,0,0,0.8);
-      }
-    }
-
     // 修改nprogress颜色
     #nprogress {
       .bar {

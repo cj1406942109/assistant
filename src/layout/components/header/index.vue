@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col class="hidden-xs-only">
+    <el-col class="app-header-wrapper">
       <div class="pc-header">
         <h3 class="nav-brand">外研 AI 智能学习平台</h3>
         <el-menu default-active="write" active-text-color="#5093F0" mode="horizontal">
@@ -8,28 +8,6 @@
         </el-menu>
         <span class="user-test"><svg-icon icon-class="user"></svg-icon>合心测试</span>
       </div>
-    </el-col>
-    <el-col class="hidden-sm-and-up">
-      <!-- <mt-header fixed :title="$route.meta.title"></mt-header> -->
-      <mt-header fixed :title="$route.meta.title">
-        <router-link to="/home" slot="left">
-          <mt-button>
-            <svg-icon icon-class="home" slot="icon"></svg-icon>首页
-          </mt-button>
-        </router-link>
-        <router-link to="/" slot="right">
-          咨询
-          <mt-button>
-            <svg-icon icon-class="message" slot="icon"></svg-icon>
-          </mt-button>
-        </router-link>
-      </mt-header>
-      <mt-tabbar v-if="$route.meta.showTab" v-model="activeTab" fixed>
-        <mt-tab-item v-for="item in tabListM" :key="item.id" :id="item.id" @click.native="tabChangeHandler(item)">
-          <svg-icon :icon-class="item.icon" slot="icon"></svg-icon>
-          {{item.label}}
-        </mt-tab-item>
-      </mt-tabbar>
     </el-col>
   </el-row>
 </template>
@@ -44,9 +22,6 @@ export default {
   props: {
     title: {
       type: String
-    },
-    tabListM: {
-      type: Array
     },
     tabListP: {
       type: Array
@@ -65,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .hidden-xs-only {
+  .app-header-wrapper {
     border-bottom: 1px solid #eee;
     .pc-header {
       display: flex;
@@ -102,29 +77,6 @@ export default {
           vertical-align: -0.2em;
           margin-right: 5px;
         }
-      }
-    }
-  }
-  .hidden-sm-and-up {
-    .mint-header.is-fixed {
-      height: 50px;
-      background-color: #fff;
-      font-size: 14px;
-      color: #333;
-      .svg-icon {
-        margin: 0 5px;
-        vertical-align: 0.1em;
-      }
-    }
-    .mint-tabbar {
-      background-color: #fff;
-      border-top: 1px solid #eee;
-      .svg-icon {
-        width: inherit;
-      }
-      .mint-tab-item.is-selected {
-        color: #FFDA44;
-        background: none;
       }
     }
   }

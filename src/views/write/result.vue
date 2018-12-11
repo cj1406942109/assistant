@@ -1,148 +1,74 @@
 <template>
-  <div>
-    <el-row class="hidden-xs-only pc-main">
-      <el-col class="pc-content-wrapper">
-        <s-breadcrumb route-name="write" title="精批报告"></s-breadcrumb>
-        <div class="essay-info" v-if="report">
-          <s-icon-title :mobile="false">
-            作文：{{report.name}}
-            <template slot="info">
-              {{report.time_create}}
-            </template>
-          </s-icon-title>
-          <div class="statistics">
-            <s-big-num :number="optimizationNum" unit="处">可优化</s-big-num>
-            <s-big-num :number="errorType" unit="类">写作问题</s-big-num>
-            <s-big-num :number="report.words_count" unit="词">书写词数</s-big-num>
-          </div>
-          <s-icon-title :rect="false" icon="info" :title="false">
-            {{optimizationNum}} 处可优化的错误，分别属于 {{errorType}} 个类型的写作问题。
-          </s-icon-title>
+  <el-row class="pc-main">
+    <el-col class="pc-content-wrapper">
+      <s-breadcrumb route-name="write" title="精批报告"></s-breadcrumb>
+      <div class="essay-info" v-if="report">
+        <s-icon-title :mobile="false">
+          作文：{{report.name}}
+          <template slot="info">
+            {{report.time_create}}
+          </template>
+        </s-icon-title>
+        <div class="statistics">
+          <s-big-num :number="optimizationNum" unit="处">可优化</s-big-num>
+          <s-big-num :number="errorType" unit="类">写作问题</s-big-num>
+          <s-big-num :number="report.words_count" unit="词">书写词数</s-big-num>
         </div>
-        <div class="essay-correction" v-if="report">
-          <s-icon-title :mobile="false">作文批改</s-icon-title>
-          <div class="all-errors">
-            <p>全部写作问题（{{optimizationNum}}）</p>
-            <p class="error-type">
-              <span v-for="item in errorTable" :key="item.id">{{item.type}}（{{item.errors.length}}）</span>
-            </p>
+        <s-icon-title :rect="false" icon="info" :title="false">
+          {{optimizationNum}} 处可优化的错误，分别属于 {{errorType}} 个类型的写作问题。
+        </s-icon-title>
+      </div>
+      <div class="essay-correction" v-if="report">
+        <s-icon-title :mobile="false">作文批改</s-icon-title>
+        <div class="all-errors">
+          <p>全部写作问题（{{optimizationNum}}）</p>
+          <p class="error-type">
+            <span v-for="item in errorTable" :key="item.id">{{item.type}}（{{item.errors.length}}）</span>
+          </p>
+        </div>
+        <!-- 连接线 -->
+        <svg id="lineCurve">
+          <path fill-opacity="0" stroke="#47DAD1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4" stroke-width="2" transform="translate(5,5)"></path>
+        </svg>
+        <div class="errors-detail">
+          <div class="essay-container">
+            <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal', selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
+              <span v-html="escapeEnter(item.word)"></span>
+              <span v-if="item.tag!=='normal'" :id="'word_'+item.index" class="error-index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{item.index + 1}}</span>
+            </span>
           </div>
-          <!-- 连接线 -->
-          <svg id="lineCurve">
-            <path fill-opacity="0" stroke="#47DAD1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4" stroke-width="2" transform="translate(5,5)"></path>
-          </svg>
-          <div class="errors-detail">
-            <div class="essay-container">
-              <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal', selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
-                <span v-html="escapeEnter(item.word)"></span>
-                <span v-if="item.tag!=='normal'" :id="'word_'+item.index" class="error-index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{item.index + 1}}</span>
-              </span>
+          <div class="error-container">
+            <div class="error-info" v-for="(item, index) in errorList" :key="item.id" :class="{ selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
+              <p><span :id="'error_'+index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{index + 1}}</span>{{item.error}}</p>
+              <p>{{item.text}}</p>
             </div>
-            <div class="error-container">
-              <div class="error-info" v-for="(item, index) in errorList" :key="item.id" :class="{ selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
-                <p><span :id="'error_'+index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{index + 1}}</span>{{item.error}}</p>
-                <p>{{item.text}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="error-table" v-if="errorTable.length > 0">
-            <s-icon-title :rect="false" icon="error" :mobile="false">错误统计</s-icon-title>
-            <table cellspacing="0">
-              <tr>
-                <th>类型</th>
-                <th>数量</th>
-                <th>原文内容</th>
-                <th>推荐表达</th>
-              </tr>
-              <tr v-for="item in errorTable" :key="item.id">
-                <td>{{item.type}}</td>
-                <td>{{item.errors.length}}</td>
-                <td><div v-for="err in item.errors" :key="err.id">{{err.word}}</div></td>
-                <td><div v-for="err in item.errors" :key="err.id">{{err.candidate}}</div></td>
-              </tr>
-            </table>
           </div>
         </div>
-      </el-col>
-    </el-row>
-    <el-row class="hidden-sm-and-up mobile-main">
-      <el-col class="mobile-content-wrapper">
-        <div class="essay-result" v-if="report">
-          <div class="overall">
-            <s-icon-title>作文表现</s-icon-title>
-            <s-list>
-              <template slot="title">
-                <span>{{report.time_create}}</span>
-              </template>
-              <span slot="content">{{report.name}}（{{report.words_count}} 词）</span>
-            </s-list>
-            <s-split-col>
-              <template slot="l-col"><s-big-num :number="optimizationNum" unit="处">可优化</s-big-num></template>
-              <template slot="r-col"><s-big-num :number="errorType" unit="类">写作问题</s-big-num></template>
-            </s-split-col>
-            <s-icon-title icon="info" :title="false" :rect="false">{{optimizationNum}} 处可优化的错误，分别属于 {{errorType}} 个类型的写作问题。</s-icon-title>
-          </div>
-          <div class="essay-correction">
-            <s-icon-title>作文批改</s-icon-title>
-            <div class="all-errors">
-              <p>全部写作问题（{{optimizationNum}}）</p>
-              <p class="error-type">
-                <span v-for="item in errorTable" :key="item.id">{{item.type}}（{{item.errors.length}}）</span>
-              </p>
-            </div>
-          </div>
-          <div class="errors-detail">
-            <p>{{report.words_count}} 词</p>
-            <div class="essay-container">
-              <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal', selected: item.index === selectedIndex }" @touchstart="showPopup(item)">
-                <template v-if="'index' in item">
-                  <el-popover
-                    placement="top-start"
-                    width="200"
-                    :title="item.error"
-                    trigger="manual"
-                    v-model="item.visible"
-                    popper-class="essay-error-popper"
-                    :content="item.text">
-                    <!-- 首单词用于popover定位，防止内容出现换行时位置错乱 -->
-                    <span v-html="escapeEnter(item.word).split(' ')[0]" slot="reference"></span>
-                  </el-popover>
-                  <span v-html="escapeEnter(item.word).split(' ').slice(1).join(' ')"></span>
-                </template>
-                <span v-else v-html="escapeEnter(item.word)"></span>
-              </span>
-            </div>
-          </div>
-          <div class="error-table" v-if="errorTable.length > 0">
-            <s-icon-title :rect="false" icon="error">错误统计</s-icon-title>
-            <div v-for="item in errorTable" :key="item.id">
-              <div class="type-name" @click="item.isCollpase=!item.isCollpase" :class="{collapse: !item.isCollpase}">{{item.type}}
-                <span v-if="!item.isCollpase">收起<svg-icon icon-class="arrow_top"></svg-icon></span>
-                <span v-else>展开<svg-icon icon-class="arrow_down"></svg-icon></span>
-              </div>
-              <div class="type-errors" v-if="!item.isCollpase">
-                <p v-for="err in item.errors" :key="err.id">
-                  {{err.word}}
-                  <template v-if="err.candidate !== '-'"><span> 建议改为 </span>{{err.candidate}}</template>
-                  <span v-else> 可能有误 </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <s-icon-title :rect="false" icon="info" :title="false" class="correction-prompt">
-            本次批改是由人工智能完成，已对语言的拼写、语法、语义进行检查，但依然会与教师日常批改习惯和评分标准存在不可避免的差异。
-          </s-icon-title>
+        <div class="error-table" v-if="errorTable.length > 0">
+          <s-icon-title :rect="false" icon="error" :mobile="false">错误统计</s-icon-title>
+          <table cellspacing="0">
+            <tr>
+              <th>类型</th>
+              <th>数量</th>
+              <th>原文内容</th>
+              <th>推荐表达</th>
+            </tr>
+            <tr v-for="item in errorTable" :key="item.id">
+              <td>{{item.type}}</td>
+              <td>{{item.errors.length}}</td>
+              <td><div v-for="err in item.errors" :key="err.id">{{err.word}}</div></td>
+              <td><div v-for="err in item.errors" :key="err.id">{{err.candidate}}</div></td>
+            </tr>
+          </table>
         </div>
-      </el-col>
-    </el-row>
-  </div>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
 import SBreadcrumb from '@/components/s-breadcrumb'
 import SIconTitle from '@/components/s-icon-title'
-import SList from '@/components/s-list'
-import SSplitCol from '@/components/s-split-col'
 import SBigNum from '@/components/s-big-num'
 
 import { getArticleReportById } from '@/api'
@@ -154,20 +80,10 @@ export default {
       wordList: '',
       errorList: '',
       errorTable: '',
-      selectedIndex: -1,
-      screenWidth: document.body.clientWidth
-    }
-  },
-  mounted () {
-    const vm = this
-    window.onresize = function () {
-      vm.screenWidth = document.body.clientWidth
+      selectedIndex: -1
     }
   },
   computed: {
-    isPc () {
-      return this.screenWidth >= 768
-    },
     optimizationNum () {
       return this.report.check.length + this.report.phrase.length
     },
@@ -176,7 +92,7 @@ export default {
     }
   },
   components: {
-    SBreadcrumb, SIconTitle, SBigNum, SList, SSplitCol
+    SBreadcrumb, SIconTitle, SBigNum
   },
   created () {
     // 获取作文的批改报告信息
@@ -282,16 +198,10 @@ export default {
             setTimeout(this.getArticleReport(), 500)
           }
         } else {
-          if (this.isPc) {
-            this.$message({
-              message: '获取批改结果失败',
-              type: 'error'
-            })
-          } else {
-            this.$toast({
-              message: '获取批改结果失败'
-            })
-          }
+          this.$message({
+            message: '获取批改结果失败',
+            type: 'error'
+          })
         }
       })
     },
@@ -580,15 +490,6 @@ export default {
       }
       let d = `M${p1.x},${p1.y} L${p2.x - 30},${p1.y} L${p2.x - 30},${p2.y} L${p2.x},${p2.y}`
       curve.children[0].setAttribute('d', d)
-    },
-    showPopup (item) {
-      // item.visible = true
-      this.wordList.forEach(ele => {
-        if ('index' in ele) {
-          ele.visible = false
-        }
-      })
-      item.visible = true
     }
   }
 }
@@ -678,7 +579,7 @@ export default {
             cursor: pointer;
             .error-index {
               left: 0;
-              top: -24px;
+              top: -23px;
               position: absolute;
               border-radius: 50%;
               display: inline-block;
@@ -759,116 +660,6 @@ export default {
             }
           }
         }
-      }
-    }
-  }
-  .mobile-main {
-    background-color: #fff!important;
-    height: calc(100% - 50px);
-    margin-bottom: 20px!important;
-  }
-  .mobile-content-wrapper {
-    border-top: 1px solid #eee;
-    .essay-result {
-      background-color: #fff;
-      margin: -20px -10px;
-      min-height: calc(100vh - 50px);
-      padding: 20px 10px;
-      .overall {
-        border-bottom: 1px dashed #ccc;
-        padding-bottom: 20px;
-      }
-      .essay-correction {
-        margin-top: 20px;
-        .all-errors {
-          padding: 0 10px;
-          border: 1px solid #eee;
-          border-radius: 5px;
-          text-align: left;
-          p {
-            color: #666;
-            font-size: 16px;
-          }
-          .error-type {
-            display: flex;
-            flex-wrap: wrap;
-            span {
-              font-size: 14px;
-              color: #333;
-              line-height: 24px;
-              margin-right: 5px;
-              font-weight: bold;
-            }
-          }
-        }
-      }
-      .errors-detail {
-        & > p {
-          padding-right: 20px;
-          margin-bottom: 5px;
-          text-align: right;
-        }
-        .essay-container {
-          text-align: justify;
-          font-size: 14px;
-          color: #333;
-          line-height: 30px;
-          background-color: #FBFDFE;
-          padding: 20px;
-          border-radius: 5px;
-          border: 1px solid #eee;
-          .highlight {
-            color: #FD6064;
-            cursor: pointer;
-          }
-        }
-      }
-      .error-table {
-        .type-name {
-          padding: 20px;
-          font-size: 18px;
-          border-radius: 5px;
-          border: 1px solid #eee;
-          display: flex;
-          justify-content: space-between;
-          margin: 5px 0;
-          span {
-            color: #48B3FF;
-            .svg-icon {
-              margin-left: 10px;
-              font-size: 14px;
-            }
-          }
-          &.collapse {
-            border: 1px solid #48B3FF;
-          }
-        }
-        .type-errors {
-          margin: 10px 0;
-          border: 1px solid #eee;
-          padding: 10px 20px;
-          border-radius: 5px;
-          text-align: left;
-          p {
-            margin: 0;
-            line-height: 30px;
-            &::before {
-              content: '\02022';
-              margin-right: 10px;
-            }
-          }
-          span {
-            color: #2AD5CA;
-          }
-        }
-      }
-      .correction-prompt {
-        margin-top: 20px;
-        font-size: 16px;
-        line-height: 24px;
-        padding: 0 10px 0 20px;
-        text-indent: -20px;
-        text-align: justify;
       }
     }
   }
