@@ -29,7 +29,6 @@
 <script>
 import SList from '@/components/s-list'
 import STag from '@/components/s-tag'
-import SBigNum from '@/components/s-big-num'
 
 import {
   // login,
@@ -60,7 +59,7 @@ export default {
     }
   },
   components: {
-    SList, STag, SBigNum
+    SList, STag
   },
   methods: {
     getArticleList () {

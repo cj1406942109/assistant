@@ -27,10 +27,8 @@
 </template>
 
 <script>
-import SBreadcrumb from '@/components/s-breadcrumb'
 import { getArticleContentById, saveArticle, commitArticle } from '@/api'
 import AppHeader from '@/layout/components/header'
-import moment from 'moment'
 
 export default {
   data () {
@@ -39,7 +37,6 @@ export default {
         name: '',
         answer: ''
       },
-      moment,
       loading: true,
       btnLoading: false,
       submitLoading: false
@@ -111,7 +108,7 @@ export default {
     }
   },
   components: {
-    SBreadcrumb, AppHeader
+    AppHeader
   },
   methods: {
     getArticle () {

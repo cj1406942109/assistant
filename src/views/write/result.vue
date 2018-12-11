@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import SBreadcrumb from '@/components/s-breadcrumb'
 import SIconTitle from '@/components/s-icon-title'
 import SList from '@/components/s-list'
 import SSplitCol from '@/components/s-split-col'
@@ -99,7 +98,7 @@ export default {
     }
   },
   components: {
-    SBreadcrumb, SIconTitle, SBigNum, SList, SSplitCol
+    SIconTitle, SBigNum, SList, SSplitCol
   },
   created () {
     // 获取作文的批改报告信息
@@ -457,45 +456,6 @@ export default {
     },
     escapeEnter (val) {
       return val.replace(/\n/g, '<br>')
-    },
-    linkErrorWord (item) {
-      if ('index' in item) {
-        this.selectedIndex = item.index
-        this.drawLine(document.querySelector('#word_' + item.index), document.querySelector('#error_' + item.index))
-      }
-    },
-    removeLink (item) {
-      this.selectedIndex = -1
-      document.querySelector('#lineCurve').setAttribute('opacity', 0)
-    },
-    drawLine (word, error) {
-      // word在左边，error在右边，画线将word的右边与error的左边相连
-      // 获取元素的大小及其相对于视口的位置
-      const pw = word.getBoundingClientRect()
-      const pe = error.getBoundingClientRect()
-      // 绝对位置
-      const tempP1 = {
-        x: pw.right + document.documentElement.scrollLeft,
-        y: pw.bottom - (pw.bottom - pw.top) / 2 + document.documentElement.scrollTop
-      }
-      const tempP2 = {
-        x: pe.left + document.documentElement.scrollLeft,
-        y: pe.bottom - (pe.bottom - pe.top) / 2 + document.documentElement.scrollTop
-      }
-      let offsetLeft = document.querySelector('.pc-main').offsetLeft + 5
-      let offsetTop = document.querySelector('.pc-main').offsetTop + 5
-      let curve = document.querySelector('#lineCurve')
-      curve.setAttribute('opacity', 1)
-      const p1 = {
-        x: tempP1.x - offsetLeft - 1,
-        y: tempP1.y - offsetTop
-      }
-      const p2 = {
-        x: tempP2.x - offsetLeft + 1,
-        y: tempP2.y - offsetTop
-      }
-      let d = `M${p1.x},${p1.y} L${p2.x - 30},${p1.y} L${p2.x - 30},${p2.y} L${p2.x},${p2.y}`
-      curve.children[0].setAttribute('d', d)
     },
     showPopup (item) {
       // item.visible = true

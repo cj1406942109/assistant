@@ -2,13 +2,6 @@ html {
   body {
     margin: 0;
     -webkit-tap-highlight-color: transparent;
-    .my-loading-color {
-      .el-loading-spinner {
-        .el-icon-loading, .el-loading-text {
-          color:#fff;
-        }
-      }
-    }
     .mint-header-title {
       font-size: 16px;
     }
@@ -33,30 +26,12 @@ html {
         text-decoration: none;
         color: #333;
       }
-      .pc-main {
-        padding: 20px;
-      }
       .mobile-main {
         min-height: calc(100vh - 106px);
         margin-top: 50px;
         margin-bottom: 56px;
         background-color: #F5F5F5;
         padding: 20px 10px;
-      }
-      @media screen and (min-width: 1200px){
-        .pc-main {
-          margin: 0 auto;
-          max-width: 1160px;
-        }
-      }
-      .pc-main {
-        .el-tabs__header {
-          display: none;
-        }
-        .el-textarea__inner {
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-        }
       }
       .mobile-main {
         .el-input__inner, .el-textarea__inner {
