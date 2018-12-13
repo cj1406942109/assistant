@@ -42,6 +42,11 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      p {
+        max-width: calc(100% -250px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       button {
         margin-left: 10px;
         min-width: 80px;
