@@ -205,6 +205,9 @@ export default {
           font-size: 14px;
         }
       }
+      .mint-button.mint-button--default.is-plain {
+        border: 1px solid #808080;
+      }
     }
   }
 </style>

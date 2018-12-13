@@ -31,7 +31,7 @@ import SList from '@/components/s-list'
 import STag from '@/components/s-tag'
 
 import {
-  // login,
+  login,
   getAccountInfo,
   getArticleList
 } from '@/api'
@@ -102,18 +102,18 @@ export default {
     }
   },
   created () {
-    // login('owzm0wwgIDGwBabngmUAsZhkuiEg', 'owzm0wwgIDGwBabngmUAsZhkuiEg').then(data => {
-    //   if (data) {
-    //     this.user = data
-    //     localStorage.setItem('user', JSON.stringify(data))
-    //     this.getArticleList()
-    //   }
-    // })
-    getAccountInfo().then(data => {
+    login('owzm0wwgIDGwBabngmUAsZhkuiEg', 'owzm0wwgIDGwBabngmUAsZhkuiEg').then(data => {
       if (data) {
+        this.user = data
+        localStorage.setItem('user', JSON.stringify(data))
         this.getArticleList()
       }
     })
+    // getAccountInfo().then(data => {
+    //   if (data) {
+    //     this.getArticleList()
+    //   }
+    // })
   }
 }
 </script>

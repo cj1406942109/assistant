@@ -1,6 +1,7 @@
 html {
   body {
     margin: 0;
+    font-family: 'PingFang Regular', Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
     .mint-header-title {
       font-size: 16px;
@@ -45,13 +46,21 @@ html {
     .el-popover.essay-error-popper {
       background-color: rgba(0,0,0,0.8);
       color: #fff;
+      text-align: left;
+      word-break: break-all;
+      padding: 5px 10px;
+      box-sizing: border-box;
+      &>span {
+        margin-left: 10px;
+      }
       .el-popover__title {
         color: #FF6E36;
+        margin-bottom: 5px;
       }
       .el-popover__title::before {
         content: '\02022';
         color: #FF6E36;
-        margin-right: 10px;
+        margin-right: 5px;
       }
       .popper__arrow::after {
         border-top-color: rgba(0,0,0,0.8);
@@ -73,4 +82,15 @@ html {
       }
     }
   }
+}
+
+@font-face {
+  font-family: "PingFang Regular";
+  src: url("http://www.seedpodeco.cn/statics/fonts/fonts/PingFang Regular/PingFang Regular.eot"); /* IE9 */
+  src: url("http://www.seedpodeco.cn/statics/fonts/fonts/PingFang Regular/PingFang Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("http://www.seedpodeco.cn/statics/fonts/fonts/PingFang Regular/PingFang Regular.woff") format("woff"), /* chrome、firefox */
+  url("http://www.seedpodeco.cn/statics/fonts/fonts/PingFang Regular/PingFang Regular.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("http://www.seedpodeco.cn/statics/fonts/fonts/PingFang Regular/PingFang Regular.svg#PingFang Regular") format("svg"); /* iOS 4.1- */
+  font-style: normal;
+  font-weight: normal;
 }

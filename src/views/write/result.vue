@@ -36,8 +36,8 @@
                   :title="item.error"
                   trigger="manual"
                   v-model="item.visible"
-                  popper-class="essay-error-popper"
-                  :content="item.text">
+                  popper-class="essay-error-popper">
+                  <span>{{item.text}}</span>
                   <!-- 首单词用于popover定位，防止内容出现换行时位置错乱 -->
                   <span v-html="escapeEnter(item.word).split(' ')[0]" slot="reference"></span>
                 </el-popover>
