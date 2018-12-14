@@ -20,7 +20,7 @@
           <s-list-pc :date="item.time_create" v-for="item in essayList" :key="item.id">
             <template slot="title">
               {{item.name}}
-              <s-tag v-if="item.advice_count === 0">完美</s-tag>
+              <s-tag v-if="item.advice_count === 0 && item.words_count > 15">完美</s-tag>
               <s-tag v-if="item.advice_count > 0" tagColor="#FF6E36" tagBg="#fff">{{item.advice_count}} 处可优化</s-tag>
             </template>
             <template slot="button"><el-button :plain="item.status === 2" type="primary" @click="goEdit(item)">{{item.status | formatStatusPc}}</el-button></template>
@@ -39,7 +39,7 @@ import STag from '@/components/s-tag'
 import SBigNum from '@/components/s-big-num'
 
 import {
-  // login,
+  login,
   getAccountInfo,
   getArticleList
 } from '@/api'
@@ -110,18 +110,18 @@ export default {
     }
   },
   created () {
-    // login('owzm0wwgIDGwBabngmUAsZhkuiEg', 'owzm0wwgIDGwBabngmUAsZhkuiEg').then(data => {
-    //   if (data) {
-    //     this.user = data
-    //     localStorage.setItem('user', JSON.stringify(data))
-    //     this.getArticleList()
-    //   }
-    // })
-    getAccountInfo().then(data => {
+    login('owzm0wwgIDGwBabngmUAsZhkuiEg', 'owzm0wwgIDGwBabngmUAsZhkuiEg').then(data => {
       if (data) {
+        this.user = data
+        localStorage.setItem('user', JSON.stringify(data))
         this.getArticleList()
       }
     })
+    // getAccountInfo().then(data => {
+    //   if (data) {
+    //     this.getArticleList()
+    //   }
+    // })
   }
 }
 </script>
@@ -172,6 +172,14 @@ export default {
         }
         .load-more {
           margin-top: 20px;
+        }
+        .el-button--primary.is-plain {
+          color: #409EFF;
+          background-color: #fff;
+          border: 1px solid #409EFF;
+          &:hover {
+            background-color: #ecf5ff;
+          }
         }
       }
     }

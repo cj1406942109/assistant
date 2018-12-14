@@ -519,15 +519,15 @@ export default {
       pointer-events: none;
       transition: opacity 0.5s;
       // 添加动画效果
-      path {
-        stroke-dashoffset: 100;
-        animation: dash 3s linear infinite;
-      }
-      @keyframes dash {
-        to {
-          stroke-dashoffset: 0;
-        }
-      }
+      // path {
+      //   stroke-dashoffset: 100;
+      //   animation: dash 3s linear infinite;
+      // }
+      // @keyframes dash {
+      //   to {
+      //     stroke-dashoffset: 0;
+      //   }
+      // }
     }
     .essay-correction {
       margin-top: 10px;
@@ -579,7 +579,7 @@ export default {
             cursor: pointer;
             .error-index {
               left: 0;
-              top: -23px;
+              top: -22px;
               position: absolute;
               border-radius: 50%;
               display: inline-block;
@@ -612,17 +612,18 @@ export default {
                 border-radius: 50%;
                 display: inline-block;
                 color: #fff;
-                line-height: 20px;
                 font-size: 14px;
                 padding: 2px;
                 text-align: center;
+                line-height: 22px;
                 width: 20px;
                 height: 20px;
                 margin-right: 10px;
               }
               &:nth-of-type(1) {
                 height: 40px;
-                font-weight: bold;
+                font-size: 18px;
+                // font-weight: bold;
                 background-color: #fff;
                 border-bottom: 1px solid #eee;
               }

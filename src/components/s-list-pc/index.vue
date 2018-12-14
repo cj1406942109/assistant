@@ -32,8 +32,13 @@ export default {
     .list-title {
       text-align: left;
       color: #666;
+      max-width: calc(100% - 200px);
+      overflow: hidden;
       p {
         margin: 10px 0;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
         font-weight: normal;
         font-size: 20px;
         color: #333;

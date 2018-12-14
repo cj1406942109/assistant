@@ -8,7 +8,7 @@
         </el-form-item>
         <div class="word-count">{{wordCount}} 字</div>
         <el-form-item v-loading="loading" label="内容：">
-          <el-input clearable type="textarea" rows="25" v-model="form.answer" placeholder="开始写作文"></el-input>
+          <el-input clearable type="textarea" rows="25" v-model="form.answer" placeholder="开始书写作文"></el-input>
         </el-form-item>
         <el-form-item>
           <div class="prompt-info"><svg-icon icon-class="star"></svg-icon>为保证批改的准确性，请您输入与文章相符合的内容</div>
