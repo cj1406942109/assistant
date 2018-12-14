@@ -39,35 +39,45 @@ export default {
         name: '',
         answer: ''
       },
+      localEssayList: [],
       loading: true,
       btnLoading: false,
       submitLoading: false
     }
   },
   created () {
-    // 从本地存储中恢复作文
-    // 当且仅当当前作文id与本地存储的作文id相同时恢复
-    // 本地存储中有作文
+    this.localEssayList = JSON.parse(localStorage.getItem('essayList')) || []
+
     const currentUid = this.$route.params.id || null
-    const localEssay = JSON.parse(localStorage.getItem('essay'))
-    if (localEssay) {
-      // 存储的作文有uid且与当前uid相同，或者存储的作文没有uid，也没有当前uid
-      if (currentUid === localEssay.uid || (!currentUid && !localEssay.uid && !(!localEssay.name && !localEssay.answer))) {
-        this.$confirm('检测到有未提交的作文，是否恢复之前的写作进度？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.loading = false
-          this.form = localEssay
-        }).catch(() => {
-          if (currentUid) {
-            this.getArticle()
-          } else {
+    // 如果本地存储文章列表有文章
+    if (this.localEssayList.length > 0) {
+      // 判断当前文章是否在本地存储中
+      let isSaved = false
+      this.localEssayList.forEach(ele => {
+        // 如果当前作文有uid，且正在书写的作文有uid，且两者相同
+        // 或者
+        // 当前作文没有uid，且正在书写的作文没有uid，且当前作文存储的标题和内容不同时为空
+        // 则，弹窗确认，是否恢复本地文章
+        if (('uid' in ele && ele.uid === currentUid) || (!('uid' in ele) && !currentUid && !(!ele.name && !ele.answer))) {
+          isSaved = true
+          this.$confirm('检测到有未提交的作文，是否恢复之前的写作进度？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
             this.loading = false
-          }
-        })
-      } else {
+            this.form = ele
+          }).catch(() => {
+            if (currentUid) {
+              this.getArticle()
+            } else {
+              this.loading = false
+            }
+          })
+        }
+      })
+      // 如果本地存储没有该文章
+      if (!isSaved) {
         if (currentUid) {
           this.getArticle()
         } else {
@@ -102,14 +112,15 @@ export default {
   },
   watch: {
     // localstorage 实时存储
+    // 修改存储逻辑为存储作文列表
     'form.name': function (val, oldVal) {
       if (oldVal !== val) {
-        localStorage.setItem('essay', JSON.stringify(this.form))
+        this.saveLocalEssay()
       }
     },
     'form.answer': function (val, oldVal) {
       if (oldVal !== val) {
-        localStorage.setItem('essay', JSON.stringify(this.form))
+        this.saveLocalEssay()
       }
     }
   },
@@ -117,6 +128,43 @@ export default {
     SBreadcrumb
   },
   methods: {
+    // 将文章保存到本地存储
+    saveLocalEssay () {
+      // 判断本地存储作文列表中是否有当前作文
+      let isSaved = false
+      this.localEssayList.forEach(ele => {
+        // 当前作文有uid 且 页面正在书写的作文有uid 且 两者相同， 则为同一篇作文
+        if ('uid' in ele && 'uid' in this.form && ele.uid === this.form.uid) {
+          ele = this.form
+          isSaved = true
+        } else {
+          // 当前作文没有uid，并且页面正在书写的作文也没有uid，则为同一篇作文（新添加的作文）
+          if (!('uid' in ele) && !('uid' in this.form)) {
+            ele = this.form
+            isSaved = true
+          }
+        }
+      })
+      if (!isSaved) {
+        this.localEssayList.push(this.form)
+      }
+      localStorage.setItem('essayList', JSON.stringify(this.localEssayList))
+    },
+    // 保存和提交某篇文章之后，则将其从本地存储移除
+    removeLocalEssay () {
+      this.localEssayList.forEach((ele, index) => {
+        if ('uid' in this.form) {
+          if (ele.uid === this.form.uid) {
+            this.localEssayList.splice(index, 1)
+          }
+        } else {
+          if (!('uid' in ele)) {
+            this.localEssayList.splice(index, 1)
+          }
+        }
+      })
+      localStorage.setItem('essayList', JSON.stringify(this.localEssayList))
+    },
     getArticle () {
       const currentUid = this.$route.params.id || null
       getArticleContentById(currentUid).then(data => {
@@ -136,7 +184,7 @@ export default {
       saveArticle(this.form).then(data => {
         this.btnLoading = false
         if (data) {
-          localStorage.removeItem('essay')
+          this.removeLocalEssay()
           this.form = JSON.parse(JSON.stringify(data))
           this.$message({
             message: '保存成功',
@@ -155,7 +203,7 @@ export default {
       commitArticle({ ...this.form, wordsCount: this.wordCount }).then(data => {
         this.submitLoading = false
         if (data) {
-          localStorage.removeItem('essay')
+          this.removeLocalEssay()
           this.$router.push({ name: 'write-result', params: { id: data.batch_uid } })
           this.$message({
             message: '提交成功',

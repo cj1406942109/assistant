@@ -6,7 +6,7 @@
         <s-icon-title :mobile="false">
           作文：{{report.name}}
           <template slot="info">
-            {{report.time_create}}
+            {{report.time_create.split(' ')[0]}}
           </template>
         </s-icon-title>
         <div class="statistics">
@@ -579,7 +579,7 @@ export default {
             cursor: pointer;
             .error-index {
               left: 0;
-              top: -22px;
+              top: -20px;
               position: absolute;
               border-radius: 50%;
               display: inline-block;

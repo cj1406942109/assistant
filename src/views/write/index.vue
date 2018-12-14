@@ -17,7 +17,7 @@
         </div>
         <div class="essay-list">
           <h3>作文列表</h3>
-          <s-list-pc :date="item.time_create" v-for="item in essayList" :key="item.id">
+          <s-list-pc :date="item.time_create.split(' ')[0]" v-for="item in essayList" :key="item.id">
             <template slot="title">
               {{item.name}}
               <s-tag v-if="item.advice_count === 0 && item.words_count > 15">完美</s-tag>
@@ -80,14 +80,12 @@ export default {
           this.essayListAll.forEach(ele => {
             if (ele.status === 2) {
               this.wordsTotal += ele.words_count
-              if (ele.advice_count === 0) {
+              if (ele.advice_count === 0 && ele.words_count > 15) {
                 this.essayPerfect += 1
               }
             }
           })
-          if (this.essayListAll.length >= 4) {
-            this.essayList = this.essayListAll.slice(0, 4)
-          }
+          this.essayList = this.essayListAll.slice(0, 4)
         }
       })
     },
