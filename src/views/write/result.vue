@@ -23,7 +23,7 @@
         <div class="all-errors">
           <p>全部写作问题（{{optimizationNum}}）</p>
           <p class="error-type">
-            <span v-for="item in errorTable" :key="item.id">{{item.type}}（{{item.errors.length}}）</span>
+            <span v-for="item in errorTable" :key="item.id" :class="{ highlight: item.isShow }" @click="toggleShowError(item)">{{item.type}}（{{item.errors.length}}）</span>
           </p>
         </div>
         <!-- 连接线 -->
@@ -32,13 +32,13 @@
         </svg>
         <div class="errors-detail">
           <div class="essay-container">
-            <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal', selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
+            <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal' && item.isShow, selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
               <span v-html="escapeEnter(item.word)"></span>
-              <span v-if="item.tag!=='normal'" :id="'word_'+item.index" class="error-index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{item.index + 1}}</span>
+              <span v-if="item.tag!=='normal' && item.isShow" :id="'word_'+item.index" class="error-index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{item.index + 1}}</span>
             </span>
           </div>
           <div class="error-container">
-            <div class="error-info" v-for="(item, index) in errorList" :key="item.id" :class="{ selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
+            <div class="error-info" v-for="(item, index) in errorList" :key="item.id" v-show="item.isShow" :class="{ selected: item.index === selectedIndex }" @mouseenter="linkErrorWord(item)" @mouseleave="removeLink(item)">
               <p><span :id="'error_'+index" :class="{phrase: item.tag==='phrase', check: item.tag==='check'}">{{index + 1}}</span>{{item.error}}</p>
               <p>{{item.text}}</p>
             </div>
@@ -140,6 +140,7 @@ export default {
             let errorTable = []
             errorsArray.forEach((ele, index) => {
               ele.error = this.formateErrorType(ele.explain)
+              ele.isShow = true
               ele.index = index
               if (errorTable.length > 0) {
                 // 错误表格中有元素，遍历进行判断
@@ -156,6 +157,8 @@ export default {
                   // 与所有已有元素的错误类型都不同，新加元素
                   errorTable.push({
                     type: ele.error,
+                    // 用于筛选，是否显示
+                    isShow: true,
                     // 用于移动端的显示，展开收起
                     isCollpase: true,
                     errors: [
@@ -167,6 +170,8 @@ export default {
                 // 错误表格中无元素，直接添加新元素
                 errorTable.push({
                   type: ele.error,
+                  // 用于筛选，是否显示
+                  isShow: true,
                   // 用于移动端的显示，展开收起
                   isCollpase: true,
                   errors: [
@@ -174,15 +179,19 @@ export default {
                   ]
                 })
               }
+              // 正常词汇
               wordsArray.push({
                 word: article.slice(startIndex, ele.start),
                 tag: 'normal'
               })
+              // 有错误标注的词汇
               wordsArray.push({
                 word: article.slice(ele.start, ele.end),
                 tag: ele.tag,
                 text: ele.text,
                 error: ele.error,
+                // 用于根据错误类型进行筛选
+                isShow: true,
                 index: index
               })
               startIndex = ele.end
@@ -452,6 +461,19 @@ export default {
     escapeEnter (val) {
       return val.replace(/\n/g, '<br>')
     },
+    toggleShowError (error) {
+      error.isShow = !error.isShow
+      this.wordList.forEach(ele => {
+        if ('index' in ele && ele.error === error.type) {
+          ele.isShow = error.isShow
+        }
+      })
+      this.errorList.forEach(ele => {
+        if (ele.error === error.type) {
+          ele.isShow = error.isShow
+        }
+      })
+    },
     linkErrorWord (item) {
       if ('index' in item) {
         this.selectedIndex = item.index
@@ -550,10 +572,13 @@ export default {
           display: flex;
           flex-wrap: wrap;
           span {
+            cursor: pointer;
             color: #333;
             line-height: 24px;
             margin-right: 40px;
-            font-weight: bold;
+            &.highlight {
+              font-weight: bold;
+            }
           }
         }
       }
