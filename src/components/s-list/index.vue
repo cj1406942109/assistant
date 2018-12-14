@@ -38,14 +38,17 @@ export default {
       border-top: 1px solid #eee;
       min-height: 40px;
       line-height: 25px;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
       p {
         max-width: calc(100% -250px);
         overflow: hidden;
+        // 设置之后发现出现的省略号与文本中部对齐，而不是正常的与底部对齐
+        // 研究良久之后发现是因为字体设置为“等线”引起的
+        // 并非css问题
         text-overflow: ellipsis;
+        white-space:nowrap;
       }
       button {
         margin-left: 10px;
