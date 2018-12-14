@@ -77,9 +77,8 @@ export default {
               }
             }
           })
-          if (this.essayListAll.length >= 4) {
-            this.essayList = this.essayListAll.slice(0, 4)
-          }
+          // 默认显示前7条
+          this.essayList = this.essayListAll.slice(0, 7)
         }
       })
     },
@@ -96,7 +95,7 @@ export default {
     },
     loadMore () {
       if (this.essayList.length < this.essayListAll.length) {
-        this.essayList = this.essayList.concat(this.essayListAll.slice(this.essayList.length, this.essayList.length + 10))
+        this.essayList = this.essayList.concat(this.essayListAll.slice(this.essayList.length, this.essayList.length + 7))
         this.showLoadMore = this.essayList.length !== this.essayListAll.length
       }
     }
