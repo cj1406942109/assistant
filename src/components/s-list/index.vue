@@ -38,9 +38,9 @@ export default {
       border-top: 1px solid #eee;
       min-height: 40px;
       line-height: 25px;
-      // display: flex;
-      // align-items: center;
-      // justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       p {
         max-width: calc(100% -250px);
         overflow: hidden;

@@ -21,15 +21,15 @@
           <div class="all-errors">
             <p>全部写作问题（{{optimizationNum}}）</p>
             <p class="error-type">
-              <span v-for="item in errorTable" :key="item.id">{{item.type}}（{{item.errors.length}}）</span>
+              <span v-for="item in errorTable" :key="item.id" :class="{ highlight: item.isShow }" @click="toggleShowError(item)">{{item.type}}（{{item.errors.length}}）</span>
             </p>
           </div>
         </div>
         <div class="errors-detail">
           <p>{{report.words_count}} 词</p>
           <div class="essay-container">
-            <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal', selected: item.index === selectedIndex }" @click="showPopup(item)" @touchstart="showPopup(item)">
-              <template v-if="'index' in item">
+            <span v-for="item in wordList" :key="item.id" :class="{highlight: item.tag!=='normal' && item.isShow, selected: item.index === selectedIndex }" @click="showPopup(item)">
+              <template v-if="'index' in item && item.isShow">
                 <el-popover
                   placement="top-start"
                   width="200"
@@ -84,7 +84,6 @@ export default {
     return {
       report: '',
       wordList: '',
-      errorList: '',
       errorTable: '',
       selectedIndex: -1
     }
@@ -162,6 +161,8 @@ export default {
                   // 与所有已有元素的错误类型都不同，新加元素
                   errorTable.push({
                     type: ele.error,
+                    // 用于筛选，是否显示
+                    isShow: true,
                     // 用于移动端的显示，展开收起
                     isCollpase: true,
                     errors: [
@@ -173,6 +174,8 @@ export default {
                 // 错误表格中无元素，直接添加新元素
                 errorTable.push({
                   type: ele.error,
+                  // 用于筛选，是否显示
+                  isShow: true,
                   // 用于移动端的显示，展开收起
                   isCollpase: true,
                   errors: [
@@ -180,15 +183,19 @@ export default {
                   ]
                 })
               }
+              // 正常词汇
               wordsArray.push({
                 word: article.slice(startIndex, ele.start),
                 tag: 'normal'
               })
+              // 有错误标注的词汇
               wordsArray.push({
                 word: article.slice(ele.start, ele.end),
                 tag: ele.tag,
                 text: ele.text,
                 error: ele.error,
+                // 用于根据错误类型进行筛选
+                isShow: true,
                 index: index
               })
               startIndex = ele.end
@@ -198,7 +205,6 @@ export default {
               word: article.slice(startIndex),
               tag: 'normal'
             })
-            this.errorList = JSON.parse(JSON.stringify(errorsArray))
             this.wordList = JSON.parse(JSON.stringify(wordsArray))
           } else {
             setTimeout(this.getArticleReport(), 500)
@@ -457,6 +463,15 @@ export default {
     escapeEnter (val) {
       return val.replace(/\n/g, '<br>')
     },
+    toggleShowError (error) {
+      error.isShow = !error.isShow
+      this.wordList.forEach(ele => {
+        console.log(ele)
+        if ('index' in ele && ele.error === error.type) {
+          ele.isShow = error.isShow
+        }
+      })
+    },
     showPopup (item) {
       // item.visible = true
       this.wordList.forEach(ele => {
@@ -465,6 +480,13 @@ export default {
         }
       })
       item.visible = true
+    },
+    hidePopup () {
+      this.wordList.forEach(ele => {
+        if ('index' in ele) {
+          ele.visible = false
+        }
+      })
     }
   }
 }
@@ -501,11 +523,14 @@ export default {
             display: flex;
             flex-wrap: wrap;
             span {
+              cursor: pointer;
               font-size: 14px;
               color: #333;
               line-height: 24px;
               margin-right: 5px;
-              font-weight: bold;
+              &.highlight {
+                font-weight: bold;
+              }
             }
           }
         }

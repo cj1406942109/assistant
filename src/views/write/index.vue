@@ -13,7 +13,7 @@
           <s-list v-for="item in essayList" :key="item.id">
             <template slot="title">
               <span>{{item.time_create.split(' ')[0]}}</span>
-              <s-tag v-if="item.advice_count === 0">完美</s-tag>
+              <s-tag v-if="item.advice_count === 0 && item.words_count > 15">完美</s-tag>
               <span v-if="item.advice_count > 0">（{{item.advice_count}} 处可优化）</span>
             </template>
             <span slot="content">{{item.name}}</span>
@@ -72,7 +72,7 @@ export default {
           this.essayListAll.forEach(ele => {
             if (ele.status === 2) {
               this.wordsTotal += ele.words_count
-              if (ele.advice_count === 0) {
+              if (ele.advice_count === 0 && ele.words_count > 15) {
                 this.essayPerfect += 1
               }
             }
