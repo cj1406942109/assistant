@@ -12,7 +12,7 @@
           <mt-button type="primary" size="large" @click="goEdit()">开始写作</mt-button>
           <s-list v-for="item in essayList" :key="item.id">
             <template slot="title">
-              <span>{{item.time_create}}</span>
+              <span>{{item.time_create.split(' ')[0]}}</span>
               <s-tag v-if="item.advice_count === 0">完美</s-tag>
               <span v-if="item.advice_count > 0">（{{item.advice_count}} 处可优化）</span>
             </template>

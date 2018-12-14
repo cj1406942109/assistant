@@ -6,7 +6,7 @@
           <s-icon-title>作文表现</s-icon-title>
           <s-list>
             <template slot="title">
-              <span>{{report.time_create}}</span>
+              <span>{{report.time_create.split(' ')[0]}}</span>
             </template>
             <span slot="content">{{report.name}}（{{report.words_count}} 词）</span>
           </s-list>
