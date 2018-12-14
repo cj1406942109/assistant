@@ -45,7 +45,7 @@ export default {
         color: #333;
         span {
           font-size: 12px;
-          vertical-align: middle;
+          line-height: 26px;
         }
       }
       .svg-icon {
