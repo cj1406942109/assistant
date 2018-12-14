@@ -39,6 +39,7 @@ export default {
         width: 100%;
         text-overflow: ellipsis;
         overflow: hidden;
+        white-space:nowrap;
         font-weight: normal;
         font-size: 20px;
         color: #333;
